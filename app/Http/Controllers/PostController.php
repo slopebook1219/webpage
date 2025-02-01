@@ -7,15 +7,19 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+
+    //投稿一覧機能
     public function index()
     {
         $posts=Post::all();
         return view('posts.index', compact('posts'));
     }
+    //投稿作成機能
     public function create()
     {
         return view('posts.create');
     }
+    //投稿保存機能
     public function store(Request $request)
     {
         //投稿のバリデーション
@@ -30,9 +34,16 @@ class PostController extends Controller
         ]);
         return redirect()->route('posts.index');
     }
+    //投稿編集機能
     public function edit()
     {
         return view('posts.edit');
+    }
+    
+    //投稿詳細への遷移機能
+    public function show(Post $post)
+    {
+        return view('posts.show', compact('post'));
     }
 
 }
