@@ -35,9 +35,9 @@ class PostController extends Controller
         return redirect()->route('posts.index');
     }
     //投稿編集機能
-    public function edit()
+    public function edit(Post $post)
     {
-        return view('posts.edit');
+        return view('posts.edit', compact('post'));
     }
     
     //投稿詳細への遷移機能
@@ -46,4 +46,21 @@ class PostController extends Controller
         return view('posts.show', compact('post'));
     }
 
+    //編集の更新をかける機能
+    public function update(Request $request, Post $post)
+    {
+        $request->validate([
+            'title' => 'required',
+            'content' => 'required',
+        ]);
+        $post->update($request->all());
+
+        return redirect()->route('posts.show',  compact('post'));
+    }
+    //投稿の削除機能
+    public function destroy(Post $post)
+    {
+        $post->delete();
+        return redirect()->route('posts.index');
+    }
 }
